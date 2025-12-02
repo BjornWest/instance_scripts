@@ -1,18 +1,15 @@
 cd $TMPDIR
-
-python -m venv temp
-source .venv/bin/activate
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# Assuming $TMPDIR is your cluster's fast temporary space
 export UV_CACHE_DIR="$TMPDIR/uv_cache"
+# Assuming $TMPDIR is your cluster's fast temporary space
 
 # Ensure the directory exists
 mkdir -p "$UV_CACHE_DIR"
 
 
+uv venv temp
 uv pip install pydantic openai nltk
-
+deactivate
 
 source ~/.venv/bin/activate
 

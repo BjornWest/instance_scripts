@@ -1,11 +1,12 @@
 apt update
 apt install -y python3.12-dev
 apt install python3.12-venv
-python3 -m venv venv
-source venv/bin/activate
 curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv 
+source venv/bin/activate
+uv pip install ipykernel openai nltk dotenv polars pydantic
 
-python3 -m venv vllm_env
+uv venv vllm_env
 source vllm_env/bin/activate
 uv pip install vllm
 deactivate
@@ -13,5 +14,5 @@ deactivate
 git clone https://github.com/BjornWest/ClaimsMCP.git
 git config --global user.name "BjornWest"
 git config --global user.email "bpf.westerlund@gmail.com"
-source venv/bin/activate
-uv pip install ipykernel openai nltk dotenv polars
+cd ClaimsMCP
+git remote set-url origin https://BjornWest@github.com/BjornWest/ClaimsMCP.git

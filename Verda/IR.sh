@@ -1,12 +1,13 @@
 apt update
 apt install -y python3.12-dev
 apt install python3.12-venv
-python3 -m venv venv
-source venv/bin/activate
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
+uv venv
+source venv/bin/activate
 
-python3 -m venv vllm_env
+
+uv venv vllm_env
 source vllm_env/bin/activate
 uv pip install vllm
 deactivate
