@@ -8,6 +8,8 @@ from starlette.requests import Request
 from starlette.responses import StreamingResponse, JSONResponse
 from ray import serve
 
+os.environ["VLLM_USE_FLASHINFER_MOE_MXFP4_MXFP8"] = "1"
+
 os.environ["VLLM_LOG_STATS_INTERVAL"] = "5.0"  # Log throughput every 2 seconds
 os.environ["RAY_SERVE_QUEUE_LENGTH_RESPONSE_DEADLINE_S"] = "1.0" # Fix timeout warning
 # VLLM Imports
@@ -47,13 +49,13 @@ class UvicornLogFilter(logging.Filter):
 
 app = FastAPI()
 
-num_replicas = 4
-gpu_memory_utilization = 0.90 / num_replicas
+num_replicas = 5
+gpu_memory_utilization = 0.95 / num_replicas
 
 @serve.deployment(
     num_replicas=num_replicas, 
     ray_actor_options={"num_gpus": gpu_memory_utilization},
-    max_ongoing_requests=1000,
+    max_ongoing_requests=400,
     graceful_shutdown_timeout_s=20
 )
 @serve.ingress(app)
@@ -83,6 +85,8 @@ class VLLMDeployment:
             gpu_memory_utilization=gpu_memory_utilization,
             trust_remote_code=True,
             quantization="mxfp4",
+            max_num_seqs=128,
+            max_model_len=16384,
             
             disable_log_stats=False,   # Ensure stats are ON
         )
@@ -163,12 +167,9 @@ class VLLMDeployment:
 deployment = VLLMDeployment.bind()
 
 if __name__ == "__main__":
-    serve.start(http_options={"port": 8000})
+    serve.start(http_options={"port": 8000, "request_timeout_s": 1800})
     deployment.run()
-    
-    print("🚀 Benchmarking Server Running!")
-    print("logs: '200 OK' hidden, 'Avg generation throughput' shown every 2s.")
-    
+        
     try:
         import time
         while True:
