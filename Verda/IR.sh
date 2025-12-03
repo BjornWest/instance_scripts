@@ -9,7 +9,7 @@ uv venv venv
 
 uv venv vllm_env
 source vllm_env/bin/activate
-uv pip install vllm
+uv pip install vllm ray[serve] 
 deactivate
 
 git clone https://github.com/BjornWest/IR_project
