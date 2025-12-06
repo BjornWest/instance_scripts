@@ -16,7 +16,7 @@ git clone https://github.com/BjornWest/IR_project
 git config --global user.name "BjornWest"
 git config --global user.email "bpf.westerlund@gmail.com"
 source venv/bin/activate
-uv pip install pip ipykernel openai nltk numpy rank-bm25 spacy pyserini
+uv pip install pip ipykernel openai nltk numpy rank-bm25 spacy pyserini sentence-transformers ipywidgets
 python3 -m spacy download en_core_web_sm
 python3 -c "import nltk; nltk.download('punkt_tab', quiet=True)"
 
