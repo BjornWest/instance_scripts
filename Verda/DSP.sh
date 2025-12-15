@@ -10,7 +10,7 @@ deactivate
 
 uv venv vllm_env
 source vllm_env/bin/activate
-uv pip install vllm
+uv pip install vllm uvicorn
 deactivate
 
 git clone https://github.com/BjornWest/ClaimsMCP.git
