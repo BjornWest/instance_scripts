@@ -5,7 +5,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$PATH:/root/.local/bin"
 uv venv 
 source .venv/bin/activate
-uv pip install ipykernel openai nltk dotenv polars pydantic faiss-cpu numpy openai  gdown scikit-learn
+uv pip install ipykernel openai nltk dotenv polars pydantic faiss-cpu numpy openai gdown scikit-learn ipywidgets
 deactivate
 
 uv venv vllm_env
